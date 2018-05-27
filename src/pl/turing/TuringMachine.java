@@ -18,7 +18,7 @@ public class TuringMachine {
         states.add(State.withName("qa1")
                 .on(ZERO).move(LEFT).write(ONE).goTo("qa2")
                 .on(ONE).move(LEFT).write(ZERO).goTo("qa1r")
-                .on(EMPTY).goTo("qd")
+                .on(EMPTY).goTo("error")
                 .build());
 
         states.add(State.withName("qa2")
@@ -49,6 +49,13 @@ public class TuringMachine {
                 .on(ZERO).goTo("qd")
                 .on(ONE).goTo("qd")
                 .on(EMPTY).goTo("qd")
+                .isAcceptingState()
+                .build());
+
+        states.add(State.withName("error")
+                .on(ZERO).goTo("error")
+                .on(ONE).goTo("error")
+                .on(EMPTY).goTo("error")
                 .isAcceptingState()
                 .build());
         states.forEach(state -> stateMap.compute(state.name, (key, oldVal) -> state));
